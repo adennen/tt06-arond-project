@@ -66,13 +66,13 @@ module segment_animator (
   always @(posedge clk, posedge reset) begin
 
     if (reset) begin
-      segsOut = 0;
+      segsOut <= 0;
 
-      currentChar = 0;
-      segChecked = 0;
-      segIndex = 0;
+      currentChar <= 0;
+      segChecked <= 0;
+      segIndex <= 0;
 
-      timerCount = 0;
+      timerCount <= 0;
 
       state <= idle_state;
     end
