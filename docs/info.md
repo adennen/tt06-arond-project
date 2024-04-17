@@ -9,12 +9,18 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+Animates the 7-segment display using the input switches
+to create a 7-segment character using inputs 0-6, toggle input 7 to
+start the character animation sequence.
+
+The program works by iterating over the character bit pattern,
+enabling segments in an animated sequence.
 
 ## How to test
 
-Explain how to use your project
+Toggle the input switches to create a character with inputs 0-6, toggle input 7 to
+start the character animation sequence
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+none
