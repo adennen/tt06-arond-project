@@ -5,9 +5,6 @@
 
 `define default_netname none
 
-`include "clock_divider.v"
-`include "segment_animator.v"
-
 module tt_um_7seghex_animated (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
