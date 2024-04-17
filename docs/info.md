@@ -9,8 +9,8 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Animates the 7-segment display using the input switches
-to create a 7-segment character using inputs 0-6, toggle input 7 to
+Animates the 7-segment display by reading the input switches
+to create a custom 7-segment character. Toggle input 7 to
 start the character animation sequence.
 
 The program works by iterating over the character bit pattern,
