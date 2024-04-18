@@ -22,13 +22,13 @@ module tt_um_7seghex_animated (
   
   // *** Clock divider vars
 
-  wire clk480;
+  //wire clk480;
   wire clk60;
 
   clock_divider clk_divider (
     .clk(clk),
     .reset(reset),
-    //.clk480(clk480),
+    .clk480(/*nc*/),
     .clk60(clk60)
     );
 
@@ -62,7 +62,6 @@ module tt_um_7seghex_animated (
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_in = 0;
   assign uio_out = 0;
   assign uio_oe  = 0;
 
