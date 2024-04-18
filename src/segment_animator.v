@@ -34,22 +34,7 @@ module segment_animator (
   localparam getChar_state = 2'b01;
   localparam getSeg_state = 2'b10;
 
-
   assign out = segsOut;
-
-  initial begin
-    segsOut = 0;
-
-    currentChar = 0;
-    segChecked = 0;
-    segIndex = 0;
-
-    timerCount = 0;
-
-    state = idle_state; 
-    charAvailable_prev = 0;
-    clk60_prev = 0;
-  end
 
   always @(posedge clk, posedge reset) begin
 
