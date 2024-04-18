@@ -17,7 +17,6 @@ module tt_um_7seg_animated (
 );
 
   reg reset;
-  assign reset = ~rst_n;
   
   // *** Clock divider vars
 
@@ -44,13 +43,14 @@ module tt_um_7seg_animated (
     .charAvailable(ui_in[7]),
     .charInput(charInput),
     .out(displayOut)
-    );
-
-  assign uo_out = { displayOut, 1'b0 };
+  );
 
   // *** Main program
-  assign charInput = ui_in[6:0];
-
+  always @(posedge clk) begin
+    reset <= ~rst_n;
+    charInput <= ui_in[6:0];
+    uo_out = { displayOut, 1'b0 };
+  end
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
