@@ -28,7 +28,6 @@ module tt_um_7seg_animated (
   
   // *** Clock divider vars
 
-  wire clkPwm;
   wire clk60;
 
   clock_divider clk_divider (
