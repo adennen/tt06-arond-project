@@ -22,20 +22,19 @@ module tt_um_7seghex_animated (
   
   // *** Clock divider vars
 
-  //wire clk480;
+  wire clkPwm;
   wire clk60;
 
   clock_divider clk_divider (
     .clk(clk),
     .reset(reset),
-    .clk480(/*nc*/),
+    .clkPwm(clkPwm),
     .clk60(clk60)
     );
 
-
   // *** Segment animator vars
 
-  reg charAvailable;
+  //reg charAvailable;
   reg [6:0] charInput;
   wire [6:0] displayOut;
 
