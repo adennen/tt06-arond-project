@@ -51,8 +51,6 @@ module segment_animator (
     clk60_prev = 0;
   end
 
-
-
   always @(posedge clk, posedge reset) begin
 
     if (reset) begin
@@ -86,7 +84,7 @@ module segment_animator (
         end
       end
 
-      // If there are no flags then process the current state
+      // If there are no rising edges then process the current state
       else begin
 
         case(state)
@@ -99,7 +97,7 @@ module segment_animator (
               segsOut[segIndex] <= 1;
 
               // Start the timer and move to idle state
-              timerCount <= 8; // delay for 8 timer ticks = 0.13 seconds
+              timerCount <= 15; // delay for 15 timer ticks = 0.25 seconds
               state <= idle_state;
             end
             
@@ -134,12 +132,12 @@ module segment_animator (
         endcase
 
       end
-    end
-
-    // Update the signal status registers used for edge detection
-    charAvailable_prev <= charAvailable;
-    clk60_prev <= clk60;
-
+      
+      // Update the signal status registers used for edge detection
+      charAvailable_prev <= charAvailable;
+      clk60_prev <= clk60;
+    end /* end else if (enable) */
+    
   end /* end always block */
   
 endmodule
