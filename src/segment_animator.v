@@ -16,13 +16,17 @@ module segment_animator (
   output wire [6:0] out // 7-segment out
 );
 
-  reg [7:0] segsOut;
+  reg [6:0] segsOut;
   
   reg [6:0] currentChar; // Current 7-segment character to be displayed
   reg [6:0] segChecked; // Flags whether the segment has been evaluated for display
   reg [2:0] segIndex; // Debug for displaying segments sequentially
 
   reg [5:0] timerCount; // 6-bit segment animation timer (64 ticks)
+
+  // Registers used for rising edge detection while avoiding multidriven errors 
+  reg charAvailable_prev;
+  reg clk60_prev;
 
   // States
   reg [1:0] state;
@@ -43,24 +47,10 @@ module segment_animator (
     timerCount = 0;
 
     state = idle_state; 
+    charAvailable_prev = 0;
+    clk60_prev = 0;
   end
 
-  // When a new character becomes available, interrupt everything and load the new character
-  always @(posedge charAvailable) begin
-    if (enable) state <= getChar_state;
-  end
-
-  // Time to wait before finding the next displayable segment
-  always @(posedge clk60) begin
-    if (enable) begin
-
-      if (timerCount > 0) begin
-        timerCount <= timerCount - 1;
-        if (timerCount == 1) state <= getSeg_state; // Get the next segment after the timer expires
-      end
-
-    end
-  end
 
 
   always @(posedge clk, posedge reset) begin
@@ -75,52 +65,80 @@ module segment_animator (
       timerCount <= 0;
 
       state <= idle_state;
+      charAvailable_prev <= 0;
+      clk60_prev <= 0;
     end
     else if (enable) begin
 
-      case(state)
-        getSeg_state: begin
-          // Find the next valid segment, one clock at a time
+      // Check for rising edges 
+      
+      // Read the character from charInput on the rising edge of charAvailable
+      if (charAvailable == 1 && charAvailable_prev == 0) begin
+        state <= getChar_state;
+      end
 
-          // If the current segment index is a valid segment,
-          // display it and start the timer
-          if (currentChar[segIndex] == 1) begin
-            segsOut[segIndex] <= 1;
+      // Update the timer on the rising edge of clk60
+      else if (clk60 == 1 && clk60_prev == 0) begin
 
-            // Start the timer and move to idle state
-            timerCount <= 8; // delay for 8 timer ticks = 0.13 seconds
-            state <= idle_state;
+        if (timerCount > 0) begin
+          timerCount <= timerCount - 1;
+          if (timerCount == 1) state <= getSeg_state; // Get the next segment after the timer expires
+        end
+      end
+
+      // If there are no flags then process the current state
+      else begin
+
+        case(state)
+          getSeg_state: begin
+            // Find the next valid segment, one clock at a time
+
+            // If the current segment index is a valid segment,
+            // display it and start the timer
+            if (currentChar[segIndex] == 1) begin
+              segsOut[segIndex] <= 1;
+
+              // Start the timer and move to idle state
+              timerCount <= 8; // delay for 8 timer ticks = 0.13 seconds
+              state <= idle_state;
+            end
+            
+            // Mark that the segment has been checked
+            segChecked[segIndex] <= 1;
+            
+            // Move to the next segment to check (debug)
+            segIndex <= segIndex + 1;
+            
+            // 3. If all the segments have been checked, idle
+            if (segChecked == 7'b1111111) begin
+              state <= idle_state;
+            end
+          end
+
+          getChar_state: begin
+            // *** Reset variables ***
+            segsOut <= 0;  // Reset the display
+
+            currentChar <= charInput; // Get the next input character here
+            segChecked <= 0;
+            segIndex <= 0;
+
+            timerCount <= 0;
+
+            // Done getting the new character
+            // Start displaying the segments
+            state <= getSeg_state;
           end
           
-          // Mark that the segment has been checked
-          segChecked[segIndex] <= 1;
-          
-          // Move to the next segment to check (debug)
-          segIndex <= segIndex + 1;
-          
-          // 3. If all the segments have been checked, idle
-          if (segChecked == 7'b1111111) begin
-            state <= idle_state;
-          end
-        end
+          default:;
+        endcase
 
-        getChar_state: begin
-          // *** Reset variables ***
-          segsOut <= 0;  // Reset the display
-
-          currentChar <= charInput; // Get the next input character here
-          segChecked <= 0;
-          segIndex <= 0;
-
-          timerCount <= 0;
-
-          // Done getting the new character
-          // Start displaying the segments
-          state <= getSeg_state;
-        end
-
-      endcase
+      end
     end
+
+    // Update the signal status registers used for edge detection
+    charAvailable_prev <= charAvailable;
+    clk60_prev <= clk60;
 
   end /* end always block */
   
