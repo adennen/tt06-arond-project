@@ -39,7 +39,7 @@ pinout:
   uo[4]: "seg4"
   uo[5]: "seg5"
   uo[6]: "seg6"
-  uo[7]: ""
+  uo[7]: "seg7"
 
   # Bidirectional pins
   uio[0]: ""
