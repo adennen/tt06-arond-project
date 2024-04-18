@@ -18,16 +18,10 @@ module tt_um_7seg_animated (
 
   reg reset;
   assign reset = ~rst_n;
-
-  // Unused signals
-  wire _unused_ok = &{1'b0,
-                  clkPwm,
-                  uio_in,
-                  1'b0};
-
   
   // *** Clock divider vars
 
+  wire clkPwm;
   wire clk60;
 
   clock_divider clk_divider (
@@ -62,6 +56,12 @@ module tt_um_7seg_animated (
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
   assign uio_oe  = 0;
+
+  // Unused signals
+  wire _unused_ok = &{1'b0,
+                      clkPwm,
+                      uio_in,
+                      1'b0};
 
 endmodule
 
