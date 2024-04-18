@@ -8,9 +8,7 @@
 module tt_um_7seg_animated (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
-    /* verilator lint_off UNUSEDSIGNAL */
     input  wire [7:0] uio_in,   // IOs: Input path
-    /* verilator lint_on */
     output wire [7:0] uio_out,  // IOs: Output path
     output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
     input  wire       ena,      // will go high when the design is enabled
@@ -21,13 +19,16 @@ module tt_um_7seg_animated (
   reg reset;
   assign reset = ~rst_n;
 
+  // Unused signals
+  wire _unused_ok = &{1'b0,
+                  clkPwm,
+                  uio_in,
+                  1'b0};
+
   
   // *** Clock divider vars
 
-  /* verilator lint_off UNUSEDSIGNAL */
   wire clkPwm;
-  /* verilator lint_on */
-
   wire clk60;
 
   clock_divider clk_divider (
@@ -39,7 +40,6 @@ module tt_um_7seg_animated (
 
   // *** Segment animator vars
 
-  //reg charAvailable;
   reg [6:0] charInput;
   wire [6:0] displayOut;
 
