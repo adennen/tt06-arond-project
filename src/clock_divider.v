@@ -1,4 +1,7 @@
-// Clock divider module, Aron Dennen 2024
+/*
+ * Copyright (c) 2024 Aron Dennen 
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 // Inputs a 12.5 MHz signal and outputs a 122400 Hz (480Hz * 255 Pwm periods/clock) and 60 Hz clock signal
 // Outputs toggle at twice the output frequency to maintin N rising edges per second
