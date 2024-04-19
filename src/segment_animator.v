@@ -39,7 +39,7 @@ module segment_animator (
 
   assign out = segsOut;
 
-  always @(posedge clk, posedge reset) begin
+  always @(posedge clk) begin
 
     if (reset) begin
       segsOut <= 0;
