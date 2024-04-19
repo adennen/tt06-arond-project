@@ -23,7 +23,7 @@ module pwm (
   
   assign pwmOut = out;
   
-  always @(posedge clk, posedge reset) begin
+  always @(posedge clk) begin
     if (enable) begin
 
       if (reset) begin
