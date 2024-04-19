@@ -60,6 +60,8 @@ module tt_um_7seg_animated (
 
   // *** Main program
 
+  assign usePwm = uio_in[7];
+  
   always @(posedge clk) begin
     reset <= ~rst_n;
     charInput <= ui_in[6:0];
@@ -68,10 +70,9 @@ module tt_um_7seg_animated (
       uo_out[6:0] <= (pwmOut) ? displayOut : 7'b0000000;
     end
     else uo_out[6:0] <= displayOut;
-  end
 
-  assign usePwm = uio_in[7];
-  assign uo_out[7] = ui_in[7];
+    uo_out[7] <= ui_in[7];
+  end
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
