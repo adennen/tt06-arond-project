@@ -58,17 +58,20 @@ module tt_um_7seg_animated (
   );
 
   // *** Main program
+
+  reg [7:0] out;
+  assign uo_out = out;
   
   always @(posedge clk) begin
     reset <= ~rst_n;
     charInput <= ui_in[6:0];
 
     if (uio_in[7]) begin
-      uo_out[6:0] <= (pwmOut) ? displayOut : 7'b0000000;
+      out[6:0] <= (pwmOut) ? displayOut : 7'b0000000;
     end
-    else uo_out[6:0] <= displayOut;
+    else out[6:0] <= displayOut;
 
-    uo_out[7] <= ui_in[7];
+    out[7] <= ui_in[7];
   end
 
   // All output pins must be assigned. If not used, assign to 0.
