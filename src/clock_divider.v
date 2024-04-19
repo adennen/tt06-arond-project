@@ -25,7 +25,7 @@ module clock_divider (
   assign clkPwm = outPwm;
   assign clk60 = out60;
 
-  always @(posedge clk, posedge reset) begin
+  always @(posedge clk) begin
     if (reset) begin
       count <= 0;
       outPwm <= 0;
@@ -40,7 +40,7 @@ module clock_divider (
     end
   end
 
-  always @(posedge outPwm, posedge reset) begin
+  always @(posedge outPwm) begin
     if (reset) begin
       count2 <= 0;
       out60 <= 0;
