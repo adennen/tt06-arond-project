@@ -70,16 +70,11 @@ module tt_um_7seg_animated (
   end
 
   assign usePwm = uio_in[7];
-  assign uo_out[7] = ui_in[7], displayOut };
+  assign uo_out[7] = { ui_in[7], displayOut };
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
   assign uio_oe  = 0;
-
-  // Unused signals
- // wire _unused_ok = &{1'b0,
- //                     uio_in,
- //                     1'b0};
 
 endmodule
