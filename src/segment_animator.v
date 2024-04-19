@@ -1,4 +1,7 @@
-// 7-Segment animator module, Aron Dennen 2024
+/*
+ * Copyright (c) 2024 Aron Dennen 
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 // Iterates over the bits of a 7-segment character, sets the output segments individually with a delay period
 
