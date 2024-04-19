@@ -30,6 +30,19 @@ module tt_um_7seg_animated (
     .clk60(clk60)
     );
 
+  // *** PWM module vars
+
+  reg usePwm;
+  reg pwmOut;
+
+  pwm pwm (
+    .enable(ena),
+    .clk(clkPwm),
+    .reset(reset),
+    .pwmValue( { uio_in[6:0], 1'b0 } ),
+    .pwmOut(pwmOut)
+  );
+
   // *** Segment animator vars
 
   reg [6:0] charInput;
@@ -50,9 +63,14 @@ module tt_um_7seg_animated (
   always @(posedge clk) begin
     reset <= ~rst_n;
     charInput <= ui_in[6:0];
+
+     if (usePwm)
+        uo_out[6:0] = (pwmOut) ? displayOut : 7'b0000000;
+     else uo_out[6:0] = displayOut;
   end
 
-  assign uo_out = { ui_in[7], displayOut };
+  assign usePwm = uio_in[7];
+  assign uo_out[7] = ui_in[7], displayOut };
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
@@ -60,9 +78,8 @@ module tt_um_7seg_animated (
   assign uio_oe  = 0;
 
   // Unused signals
-  wire _unused_ok = &{1'b0,
-                      clkPwm,
-                      uio_in,
-                      1'b0};
+ // wire _unused_ok = &{1'b0,
+ //                     uio_in,
+ //                     1'b0};
 
 endmodule
