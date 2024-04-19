@@ -32,7 +32,6 @@ module tt_um_7seg_animated (
 
   // *** PWM module vars
 
-  reg usePwm;
   reg pwmOut;
 
   pwm pwm (
@@ -59,14 +58,12 @@ module tt_um_7seg_animated (
   );
 
   // *** Main program
-
-  assign usePwm = uio_in[7];
   
   always @(posedge clk) begin
     reset <= ~rst_n;
     charInput <= ui_in[6:0];
 
-    if (usePwm) begin
+    if (uio_in[7]) begin
       uo_out[6:0] <= (pwmOut) ? displayOut : 7'b0000000;
     end
     else uo_out[6:0] <= displayOut;
