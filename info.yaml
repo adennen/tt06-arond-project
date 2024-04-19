@@ -18,6 +18,7 @@ project:
     - "tt_um_7seg_animated.v"
     - "segment_animator.v"
     - "clock_divider.v"
+    - "pwm.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
