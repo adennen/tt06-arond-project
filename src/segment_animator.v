@@ -82,7 +82,7 @@ module segment_animator (
               segsOut[segIndex] <= 1;
 
               // Start the timer and move to idle state
-              timerCount <= 15; // delay for 15 timer ticks = 0.25 seconds
+              timerCount <= 7; // delay for 7 timer ticks = 7/60 or 0.117 seconds
               state <= idle_state;
             end
             
