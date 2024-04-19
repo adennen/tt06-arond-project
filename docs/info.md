@@ -13,7 +13,7 @@ Animates the 7-segment display by reading in the input switches to create a cust
 
 Inputs 0 through 6 map to outputs 0 though 6 (display segments a through g). Output 7 becomes active while input 7 is active.
 
-The program works by iterating over the character bit pattern, enabling segments sequentially at a speed of about 0.12 seconds per segment.
+The circuit works by iterating over the character bit pattern, enabling segments sequentially at a speed of about 0.12 seconds per segment.
 
 ## How to test
 
