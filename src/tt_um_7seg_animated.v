@@ -46,12 +46,13 @@ module tt_um_7seg_animated (
   );
 
   // *** Main program
+
   always @(posedge clk) begin
     reset <= ~rst_n;
     charInput <= ui_in[6:0];
   end
-    
-  assign uo_out = { displayOut, 1'b0 };
+
+  assign uo_out = { ui_in[7], displayOut };
 
   // All output pins must be assigned. If not used, assign to 0.
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
@@ -65,4 +66,3 @@ module tt_um_7seg_animated (
                       1'b0};
 
 endmodule
-
